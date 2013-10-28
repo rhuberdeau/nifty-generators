@@ -1,5 +1,5 @@
 require 'cucumber'
-require 'rspec'
+#require 'rspec'
 
 Before do
   FileUtils.rm_rf "tmp/rails_app"

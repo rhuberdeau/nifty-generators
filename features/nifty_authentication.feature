@@ -2,7 +2,7 @@ Feature: Nifty Authentication Generator
   In order to authenticate users
   As a rails developer
   I want to generate some user authentication
-
+  @failed
   Scenario: Generate default authentication
     Given a new Rails app
     When I insert "root :to => 'users#new'" into "config/routes.rb" after line 1
@@ -25,13 +25,13 @@ Feature: Nifty Authentication Generator
     And I should see the following in file "config/routes.rb"
       | resources :sessions                                          |
       | resources :users                                             |
-      | match 'login' => 'sessions#new', :as => :login               |
-      | match 'logout' => 'sessions#destroy', :as => :logout         |
-      | match 'signup' => 'users#new', :as => :signup                |
-      | match 'user/edit' => 'users#edit', :as => :edit_current_user |
+      | match '/login', to: 'sessions#new', via: 'get'               |
+      | match '/logout', to: 'sessions#destroy', via: 'delete'       |
+      | match '/signup', to: 'users#new', via: 'get'                 |
+      | get 'user/edit', to: 'users#edit', :as => :edit_current_user |
     And I should see "include ControllerAuthentication" in file "app/controllers/application_controller.rb"
-    And I should see "gem "mocha", :group => :test" in file "Gemfile"
-    And I should see "gem "bcrypt-ruby", :require => "bcrypt"" in file "Gemfile"
+    And I should see "gem "mocha", group: :test" in file "Gemfile"
+    And I should see "gem 'bcrypt-ruby', '~> 3.0.0'" in file "Gemfile"
     When I run "rails g nifty:layout -f"
     And I run "rake db:migrate"
     Then I should successfully run "rake test"

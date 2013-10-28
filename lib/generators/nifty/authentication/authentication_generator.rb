@@ -50,10 +50,10 @@ module Nifty
       def create_routes
         route "resources #{user_plural_name.to_sym.inspect}"
         route "resources #{session_plural_name.to_sym.inspect}"
-        route "match 'login' => '#{session_plural_name}#new', :as => :login"
-        route "match 'logout' => '#{session_plural_name}#destroy', :as => :logout"
-        route "match 'signup' => '#{user_plural_name}#new', :as => :signup"
-        route "match '#{user_singular_name}/edit' => '#{user_plural_name}#edit', :as => :edit_current_#{user_singular_name}"
+        route "match '/login', to: '#{session_plural_name}#new', via: 'get'"
+        route "match '/logout', to: '#{session_plural_name}#destroy', via: 'delete'"
+        route "match '/signup', to: '#{user_plural_name}#new', via: 'get'"
+        route "get '#{user_singular_name}/edit', to: '#{user_plural_name}#edit', :as => :edit_current_#{user_singular_name}"
       end
 
       def create_migration
